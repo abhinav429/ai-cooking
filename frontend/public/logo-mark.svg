@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="logo-bg" x1="8" y1="4" x2="56" y2="62" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fb923c"/>
+      <stop offset="0.5" stop-color="#ea580c"/>
+      <stop offset="1" stop-color="#9a3412"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="url(#logo-bg)"/>
+  <!-- flame silhouette -->
+  <path
+    fill="#fffaf5"
+    d="M32 11c-6 8-14 18-14 30 0 10 6.5 17 14 17s14-7 14-17c0-12-8-22-14-30z"
+  />
+  <path
+    fill="#fdba74"
+    fill-opacity="0.8"
+    d="M32 27c-5 4-8 10-8 15 0 6 3.5 10 8 10s8-4 8-10c0-5-3-11-8-15z"
+  />
+  <!-- sparkles -->
+  <circle cx="46" cy="15" r="2.25" fill="#fff"/>
+  <circle cx="52.5" cy="21" r="1.35" fill="#fff" opacity="0.88"/>
+  <path stroke="#fff" stroke-width="1.6" stroke-linecap="round" d="M13.5 19v3.2M12 20.6h3.2" opacity="0.92"/>
+</svg>
