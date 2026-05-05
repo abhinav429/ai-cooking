@@ -2,6 +2,28 @@
 
 const MEALDB_BASE = "https://www.themealdb.com/api/json/v1/1";
 
+async function areaHasMeals(area) {
+  try {
+    const response = await fetch(
+      `${MEALDB_BASE}/filter.php?a=${encodeURIComponent(area)}`,
+      {
+        next: { revalidate: 86400 }, // Cache for 24 hours
+      }
+    );
+
+    if (!response.ok) {
+      // Keep area visible if provider is flaky.
+      return true;
+    }
+
+    const data = await response.json();
+    return Array.isArray(data.meals) && data.meals.length > 0;
+  } catch {
+    // Keep area visible on transient API/network errors.
+    return true;
+  }
+}
+
 // Get random recipe of the day
 export async function getRecipeOfTheDay() {
   try {
@@ -58,9 +80,23 @@ export async function getAreas() {
     }
 
     const data = await response.json();
+    const areas = data.meals || [];
+
+    // Portfolio UX: only show cuisines that currently have meals.
+    const checks = await Promise.all(
+      areas.map(async (area) => ({
+        area,
+        hasMeals: await areaHasMeals(area.strArea),
+      }))
+    );
+
+    const availableAreas = checks
+      .filter((item) => item.hasMeals)
+      .map((item) => item.area);
+
     return {
       success: true,
-      areas: data.meals || [],
+      areas: availableAreas,
     };
   } catch (error) {
     console.error("Error fetching areas:", error);

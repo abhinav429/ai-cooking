@@ -14,10 +14,17 @@ export default function RecipeGrid({
 }) {
   const { loading, data, fn: fetchMeals } = useFetch(fetchAction);
 
+  const formatSlugToApiValue = (slug = "") =>
+    slug
+      .replace(/-/g, " ")
+      .split(" ")
+      .filter(Boolean)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
   useEffect(() => {
     if (value) {
-      // Capitalize first letter for API call
-      const formattedValue = value.charAt(0).toUpperCase() + value.slice(1);
+      const formattedValue = formatSlugToApiValue(value);
       fetchMeals(formattedValue);
     }
   }, [value]);
@@ -79,7 +86,8 @@ export default function RecipeGrid({
             </h3>
             <p className="text-muted-foreground mb-6">
               We couldn&apos;t find any {displayName}{" "}
-              {type === "cuisine" ? "dishes" : "recipes"}.
+              {type === "cuisine" ? "dishes" : "recipes"} from the current
+              MealDB catalog.
             </p>
             <Link href={backLink}>
               <span className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-semibold">
